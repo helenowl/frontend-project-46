@@ -1,35 +1,40 @@
 import _ from 'lodash';
 import parsers from './parsers.js';
+import getFormatDiff from './formatters/index.js';
 
 const readFileExt = (filename) => filename.slice(filename.indexOf('.') + 1).toLowerCase();
 const genDiff = (data1, data2) => {
   const keys = _.sortBy(_.union(_.keys(data1), _.keys(data2)));
 
-  const diff = keys.flatMap((key) => {
-    if (data1[key] === data2[key]) {
-      return `    ${key}: ${data1[key]}`;
+  const diff = keys.map((key) => {
+    if (!_.has(data1, key)) {
+      return { key, state: 'added', value: data2[key] };
     }
     if (!_.has(data2, key)) {
-      return `  - ${key}: ${data1[key]}`;
+      return { key, state: 'deleted', value: data1[key] };
     }
-    if (!_.has(data1, key)) {
-      return `  + ${key}: ${data2[key]}`;
+    if (_.isObject(data1[key]) && _.isObject(data2[key])) {
+      return { key, state: 'nested', value: genDiff(data1[key], data2[key]) };
     }
-    if (_.has(data1, key) && _.has(data2, key) && data1[key] !== data2[key]) {
-      return `  - ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}`;
+    if (!_.isEqual(data1[key], data2[key])) {
+      return {
+        key, state: 'changed', value1: data1[key], value2: data2[key],
+      };
     }
-    return keys;
-  });
 
-  return ['{', ...diff, '}'].join('\n');
+    return { key, state: 'notChanged', value: data1[key] };
+  });
+  return diff;
 };
 
-const parser = (filepath1, filepath2) => {
+const parser = (filepath1, filepath2, format = 'stylish') => {
   const data1 = parsers(filepath1, readFileExt(filepath1));
 
   const data2 = parsers(filepath2, readFileExt(filepath2));
 
-  return genDiff(data1, data2);
+  const diff = genDiff(data1, data2);
+
+  return getFormatDiff(diff, format);
 };
 
 export default parser;

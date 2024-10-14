@@ -22,3 +22,11 @@ test('parser output yaml', () => {
   const actual = parser(filepath1, filepath2);
   expect(actual).toEqual(expected);
 });
+
+test('parser output stylish json', () => {
+  const expected = readFile('fileOutputStylish.txt');
+  const filepath1 = getFixturePath('rek_file1.json');
+  const filepath2 = getFixturePath('rek_file2.json');
+  const actual = parser(filepath1, filepath2, 'stylish');
+  expect(actual).toEqual(expected);
+});
