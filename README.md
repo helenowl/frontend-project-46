@@ -8,3 +8,5 @@
 [![asciicast](https://asciinema.org/a/AocybYNZaDqAP3zWfMZt9Rr5v.svg)](https://asciinema.org/a/AocybYNZaDqAP3zWfMZt9Rr5v)
 ### Asciicast-gendiff-json/yaml-stylish
 [![asciicast](https://asciinema.org/a/H849rgA47uA2gxkSjPmqj77Tu.svg)](https://asciinema.org/a/H849rgA47uA2gxkSjPmqj77Tu)
+### Asciicast-gendiff-json/yaml-plain
+[![asciicast](https://asciinema.org/a/g8zSQ7bwRSCgVxYQnliROvtmT.svg)](https://asciinema.org/a/g8zSQ7bwRSCgVxYQnliROvtmT)

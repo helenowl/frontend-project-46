@@ -30,3 +30,11 @@ test('parser output stylish json', () => {
   const actual = parser(filepath1, filepath2, 'stylish');
   expect(actual).toEqual(expected);
 });
+
+test('parser output plain json', () => {
+  const expected = readFile('fileOutputPlain.txt');
+  const filepath1 = getFixturePath('rek_file1.json');
+  const filepath2 = getFixturePath('rek_file2.json');
+  const actual = parser(filepath1, filepath2, 'plain');
+  expect(actual).toEqual(expected);
+});
