@@ -5,15 +5,10 @@ const textData = (data) => {
     return '[complex value]';
   }
 
-  return _.isString(data) ? `'${data}'` : data;
+  return _.isString(data) ? `'${data}'` : `${data}`;
 };
 
-const getLineKey = (diffKey, currKey) => {
-  if (diffKey === null) {
-    return currKey;
-  }
-  return `${diffKey}.${currKey}`;
-};
+const getLineKey = (diffKey, currKey) => (diffKey === null ? currKey : `${diffKey}.${currKey}`);
 
 const getFormatPl = (diff) => {
   const types = {

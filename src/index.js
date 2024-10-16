@@ -1,6 +1,12 @@
 import _ from 'lodash';
-import parsers from './parsers.js';
+import { readFileSync } from 'fs';
+import path from 'path';
+import getParsers from './parsers.js';
 import getFormatDiff from './formatters/index.js';
+
+const getPath = (filename) => path.resolve(process.cwd(), filename);
+
+const readFile = (filepath) => readFileSync(filepath);
 
 const readFileExt = (filename) => filename.slice(filename.indexOf('.') + 1).toLowerCase();
 const genDiff = (data1, data2) => {
@@ -28,9 +34,9 @@ const genDiff = (data1, data2) => {
 };
 
 const parser = (filepath1, filepath2, format = 'stylish') => {
-  const data1 = parsers(filepath1, readFileExt(filepath1));
+  const data1 = getParsers(readFile(getPath(filepath1)), readFileExt(filepath1));
 
-  const data2 = parsers(filepath2, readFileExt(filepath2));
+  const data2 = getParsers(readFile(getPath(filepath2)), readFileExt(filepath2));
 
   const diff = genDiff(data1, data2);
 
