@@ -9,23 +9,23 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filepath) => readFileSync(getFixturePath(filepath), 'utf-8');
 test.each([
   {
-    a: getFixturePath('file1.json'), b: getFixturePath('file2.json'), expected: readFile('fileOutput.txt'),
+    file1: 'file1.json', file2: 'file2.json', expected: 'fileOutput.txt',
   },
   {
-    a: getFixturePath('file1.yaml'), b: getFixturePath('file2.yaml'), expected: readFile('fileOutput.txt'),
+    file1: 'file1.yaml', file2: 'file2.yaml', expected: 'fileOutput.txt',
   },
   {
-    a: getFixturePath('rek_file1.json'), b: getFixturePath('rek_file2.json'), c: 'stylish', expected: readFile('fileOutputStylish.txt'),
+    file1: 'rek_file1.json', file2: 'rek_file2.json', type: 'stylish', expected: 'fileOutputStylish.txt',
   },
   {
-    a: getFixturePath('rek_file1.json'), b: getFixturePath('rek_file2.json'), c: 'plain', expected: readFile('fileOutputPlain.txt'),
+    file1: 'rek_file1.json', file2: 'rek_file2.json', type: 'plain', expected: 'fileOutputPlain.txt',
   },
   {
-    a: getFixturePath('rek_file1.json'), b: getFixturePath('rek_file2.json'), c: 'json', expected: readFile('fileOutputJson.txt'),
+    file1: 'rek_file1.json', file2: 'rek_file2.json', type: 'json', expected: 'fileOutputJson.txt',
   },
 ])('.add($a, $b, $c)', ({
-  a, b, c, expected,
+  file1, file2, type, expected,
 }) => {
-  const actual = parser(a, b, c);
-  expect(actual).toBe(expected);
+  const actual = parser(getFixturePath(file1), getFixturePath(file2), type);
+  expect(actual).toBe(readFile(expected));
 });
